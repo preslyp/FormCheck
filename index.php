@@ -13,7 +13,7 @@
 		<ol>
 			<li>
 				<label for="myname">Name *</label>
-				<input type="text" name="myname" id="myname" title="Please enter your name" autofocus placeholder="Last, First" />
+				<input type="text" name="myname" id="myname" title="Please enter your name" autofocus placeholder="First name, Last name" />
 			</li>
 			<li>
 				<label for="mypassword">Password</label>
