@@ -8,7 +8,7 @@
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 </head>
 <body>
-<form id="myform" name="theform" class="group" action="process.php" method="GET">
+<form id="myform" name="theform" class="group" action="process.php" method="POST">
 		<span id="formerror" class="error"></span>
 		<ol>
 			<li>
