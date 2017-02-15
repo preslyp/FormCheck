@@ -1,44 +1,56 @@
-<?php
+<?php 
+	if (($_SERVER['REQUEST_METHOD'] == 'POST') && (!empty($_POST['action']))) :
 
-$myname = $_REQUEST['myname'];
-$mypassword = $_REQUEST['mypassword'];
-$mypasswordconf = $_REQUEST['mypasswordconf'];
-$errors = array();
+		if (isset($_POST['myname'])) { $myname = $_POST['myname']; }
+		if (isset($_POST['mypassword'])) { $mypassword = $_POST['mypassword']; }
+		if (isset($_POST['mypasswordconf'])) { $mypasswordconf = $_POST['mypasswordconf']; }
+		if (isset($_POST['mycomments'])) { 
 
+		$mycomments = filter_var($_POST['mycomments'], FILTER_SANITIZE_STRING); 
 
-if ($myname === ""):
+		}
+		if (isset($_POST['reference'])) { $reference = $_POST['reference']; }
+		if (isset($_POST['favoritemusic'])) { $favoritemusic = $_POST['favoritemusic']; }
+		if (isset($_POST['requesttype'])) { $requesttype = $_POST['requesttype']; }
+		$errors = array();
 
-	$errors[] = "<div>Sorry, your name is required field.</div>";
+		$formerrors = false;
 
-endif;//input empty field
+		if ($myname === ""):
+			$errors[] = '<div class="error">Sorry, your name is required field.</div>';
+		endif;//input empty field
 
+		if (strlen($mypassword) <= 6):
+			$errors[] = '<div class="error">Sorry, the password must be at least six characters.</div>';
+		endif; // password not long enough
 
-if (strlen($mypassword) <= 6):
+		if ($mypassword !== $mypasswordconf) :
+			$errors[] = '<div class="error">Sorry, password must match.</div>';
+		endif; // password don't match
 
-	$errors[] = "<div>Sorry, the password must be at least six characters.</div>";
+		if (!(preg_match('/[A-Za-z]+, [A-Za-z]+/', $myname))):
+			$errors[] = '<div class="error">Sorry, the name must be in the format: Last name, First name.</div>';
+		endif; //pattern doesn't match
 
-endif; // password not long enough
+		if (!($formerrors)) :
+			
+			$to			= "pancho.angarev@gmail.com";
+			$subject 	= "From $myname -- Signup Page";
+			$massage	= "$myname filled out the form";
+			$replyto	= "From: email@mail.com \r\n";
+						   "Reply - To: donotreply$mail.com";
 
-if ($mypassword !== $mypasswordconf) :
-	
-	$errors[] = "<div>Sorry, password must match.</div>";
+			if (mail($to, $subject, $massage)) :
+				
+				$msg = "Thank you for filling out out form";
 
-endif; // password don't match
+			else :
 
+				$msg = "Ploblem sending massage";
 
-if (!(preg_match('/[A-Za-z]+, [A-Za-z]+/', $myname))):
+			endif; //mail form data
 
-	$errors[] = "<div>Sorry, the name must be in the format: Last name, First name.</div>";
-
-endif; //pattern doesn't match
-
-if ( !empty($errors)) :
-
-	foreach ($errors as $error) {
-		echo $error . "<br/>";
-	}
-
-endif;
-
-
+		endif; // check for errors
+		
+	endif; //form submitted
 ?>

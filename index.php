@@ -1,41 +1,4 @@
-<?php 
-	if (($_SERVER['REQUEST_METHOD'] == 'POST') && (!empty($_POST['action']))) :
-
-
-
-		if (isset($_POST['myname'])) { $myname = $_POST['myname']; }
-		if (isset($_POST['mypassword'])) { $mypassword = $_POST['mypassword']; }
-		if (isset($_POST['mypasswordconf'])) { $mypasswordconf = $_POST['mypasswordconf']; }
-		if (isset($_POST['mycomments'])) { 
-
-		$mycomments = filter_var($_POST['mycomments'], FILTER_SANITIZE_STRING); 
-
-		}
-		if (isset($_POST['reference'])) { $reference = $_POST['reference']; }
-		if (isset($_POST['favoritemusic'])) { $favoritemusic = $_POST['favoritemusic']; }
-		if (isset($_POST['requesttype'])) { $requesttype = $_POST['requesttype']; }
-		$errors = array();
-
-		if ($myname === ""):
-			$errors[] = '<div class="error">Sorry, your name is required field.</div>';
-		endif;//input empty field
-
-		if (strlen($mypassword) <= 6):
-			$errors[] = '<div class="error">Sorry, the password must be at least six characters.</div>';
-		endif; // password not long enough
-
-		if ($mypassword !== $mypasswordconf) :
-			$errors[] = '<div class="error">Sorry, password must match.</div>';
-		endif; // password don't match
-
-		if (!(preg_match('/[A-Za-z]+, [A-Za-z]+/', $myname))):
-			$errors[] = '<div class="error">Sorry, the name must be in the format: Last name, First name.</div>';
-		endif; //pattern doesn't match
-		
-	endif; //form submitted
-?>
-
-
+<?php include "process.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +9,13 @@
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 </head>
 <body>
+<div id="formmessage">
+	<p></p>
+</div>
+<?php if (isset($msg)) {
+	echo  '<div id="formmessage"><p>' . $msg; '</p></div>';
+} ?>
+
 <form id="myform" name="theform" class="group" action=" <?php echo $_SERVER['PHP_SELF']; ?> " method="POST">
 		<span id="formerror" class="error"></span>
 		<ol>
