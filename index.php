@@ -6,7 +6,11 @@
 		if (isset($_POST['myname'])) { $myname = $_POST['myname']; }
 		if (isset($_POST['mypassword'])) { $mypassword = $_POST['mypassword']; }
 		if (isset($_POST['mypasswordconf'])) { $mypasswordconf = $_POST['mypasswordconf']; }
-		if (isset($_POST['mycomments'])) { $mycomments = $_POST['mycomments']; }
+		if (isset($_POST['mycomments'])) { 
+
+		$mycomments = filter_var($_POST['mycomments'], FILTER_SANITIZE_STRING); 
+
+		}
 		if (isset($_POST['reference'])) { $reference = $_POST['reference']; }
 		if (isset($_POST['favoritemusic'])) { $favoritemusic = $_POST['favoritemusic']; }
 		if (isset($_POST['requesttype'])) { $requesttype = $_POST['requesttype']; }
@@ -104,7 +108,7 @@
 				</ol>
 			</li>
 			<li>
-				<label for="mycomments">Comment</label>
+				<label for="mycomments">Comment: (html is not allowed)</label>
 				<textarea name="mycomments" id="mycomments"><?php if (isset($mycomments)) { echo $mycomments; } ?></textarea>
 			</li>
 		</ol>
