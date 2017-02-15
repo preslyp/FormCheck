@@ -1,3 +1,42 @@
+<?php 
+	if (($_SERVER['REQUEST_METHOD'] == 'POST') && (!empty($_POST['action']))) :
+
+		$myname = $_REQUEST['myname'];
+		$mypassword = $_REQUEST['mypassword'];
+		$mypasswordconf = $_REQUEST['mypasswordconf'];
+		$errors = array();
+
+
+		if ($myname === ""):
+
+			$errors[] = '<div class="error">Sorry, your name is required field.</div>';
+
+		endif;//input empty field
+
+
+		if (strlen($mypassword) <= 6):
+
+			$errors[] = '<div class="error">Sorry, the password must be at least six characters.</div>';
+
+		endif; // password not long enough
+
+		if ($mypassword !== $mypasswordconf) :
+			
+			$errors[] = '<div class="error">Sorry, password must match.</div>';
+
+		endif; // password don't match
+
+
+		if (!(preg_match('/[A-Za-z]+, [A-Za-z]+/', $myname))):
+
+			$errors[] = '<div class="error">Sorry, the name must be in the format: Last name, First name.</div>';
+
+		endif; //pattern doesn't match
+		
+	endif; //form submitted
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +47,7 @@
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 </head>
 <body>
-<form id="myform" name="theform" class="group" action="process.php" method="POST">
+<form id="myform" name="theform" class="group" action=" <?php echo $_SERVER['PHP_SELF']; ?> " method="POST">
 		<span id="formerror" class="error"></span>
 		<ol>
 			<li>
@@ -71,7 +110,17 @@
 				<textarea name="mycomments" id="mycomments"></textarea>
 			</li>
 		</ol>
-		<button type="submit">send</button>
+		<button type="submit" name="action" value="submit">Send</button>
+
+		<?php 
+			if ( isset($errors) && !empty($errors)) :
+
+				foreach ($errors as $error) {
+					echo $error . "<br/>";
+				}
+
+			endif; 
+		?>
 </form>
 </body>
 </html>

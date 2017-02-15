@@ -32,7 +32,7 @@ if (!(preg_match('/[A-Za-z]+, [A-Za-z]+/', $myname))):
 
 endif; //pattern doesn't match
 
-if ( !empty($errors))	 :
+if ( !empty($errors)) :
 
 	foreach ($errors as $error) {
 		echo $error . "<br/>";
